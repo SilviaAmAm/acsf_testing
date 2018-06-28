@@ -2,10 +2,13 @@ import numpy as np
 import tensorflow as tf
 from qml.ml import representations
 from qml.aglaia import symm_funct
-import os
 import time
 import psutil
 import sys
+
+## ------------ ** Getting the arguments ** -----------
+
+arguments = sys.argv
 
 ## ------------- ** Loading the data ** ---------------
 
@@ -30,14 +33,9 @@ for item in mbtypes:
     if len(item) == 3:
         break
 
-output = open("batches_results.txt", 'w')
-output.write("\n These results were generated with the following data: ")
-output.write("n_atoms: %s, elements: %s" % (str(max_n_atoms), str(elements)))
-output.write("\n")
 
 mem_output = open("batches_memory.txt", 'a')
 p = psutil.Process()
-mem_output.write("The current process is: %s. \n" % (str(p.name)))
 
 ## ------------- ** Parameters for acsf ** -------------------------
 
@@ -51,17 +49,8 @@ angular_cutoff = 10.0
 
 ## ------------- ** Making the descriptor ** ------------
 
-# run_metadata = tf.RunMetadata()
-# options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
-# batch_sizes = [1, 5, 50, 200, 400]
-# samples = [100, 200, 400, 800, 3000]
-batch_sizes = [100]
-samples = [10000]
-
-
-full_batch_sizes = []
-times = []
-full_n_samples = []
+batch_sizes = [int(arguments[1])]
+samples = [int(arguments[2])]
 
 for n_points in samples:
 
@@ -93,18 +82,9 @@ for n_points in samples:
 
             descriptor_slices=[]
 
-            # path = "tensorboard/batches/n_samples_" + str(n_points) + "_batch_" + str(batch_size) + "_iter_" + str(i)
-            #
-            # if not os.path.exists(path):
-            #     os.makedirs(path)
-
-            # summary_writer = tf.summary.FileWriter(logdir=path, graph=sess_batches.graph)
-
             batch_counter = 0
             while True:
                 try:
-                    # descriptor_np = sess_batches.run(descriptor, options=options, run_metadata=run_metadata)
-                    # summary_writer.add_run_metadata(run_metadata=run_metadata, tag="batch %s" % batch_counter, global_step=None)
                     descriptor_np = sess_batches.run(descriptor)
                     descriptor_slices.append(descriptor_np)
                     batch_counter += 1
@@ -117,21 +97,7 @@ for n_points in samples:
             batch_end_time = time.time()
 
             final_time = batch_end_time - batch_start_time
-            times.append(final_time)
-            full_batch_sizes.append(batch_size)
-            full_n_samples.append(n_points)
-
-            output.write("The time taken for the descriptor in batches of %s is: %s \n" % (str(batch_size), str(final_time)))
-
             sess_batches.close()
 
-    output.write("The shape of the descriptor is %s" % (str(descriptor_conc.shape)))
-
-mem_output.write(str(p.memory_info()))
+mem_output.write('{0} {1} {2}'.format(arguments[2], arguments[1], p.memory_info()[1]))
 mem_output.write("\n")
-
-times = np.asarray(times)
-full_batch_sizes = np.asarray(full_batch_sizes)
-full_n_samples = np.asarray(full_n_samples)
-
-np.savez("batches_results.npz", full_n_samples, full_batch_sizes, times)
