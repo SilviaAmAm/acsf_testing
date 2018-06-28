@@ -1,0 +1,4 @@
+
+ These results were generated with the following data: n_atoms: 19, elements: [1, 6, 7]
+The time taken for the descriptor in batches of 100 is: 87.6276969909668 
+The shape of the descriptor is (10000, 19, 18)

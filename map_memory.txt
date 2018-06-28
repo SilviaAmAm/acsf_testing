@@ -1,0 +1,6 @@
+The current process is: <bound method Process.name of psutil.Process(pid=7198, name='python3.6', started='09:22:59')>. 
+pmem(rss=173891584, vms=2824466432, pfaults=52749, pageins=4)
+The current process is: <bound method Process.name of psutil.Process(pid=7222, name='python3.6', started='09:24:41')>. 
+pmem(rss=184107008, vms=2831749120, pfaults=55351, pageins=1158)
+The current process is: <bound method Process.name of psutil.Process(pid=7255, name='python3.6', started='09:26:34')>. 
+pmem(rss=202682368, vms=2842677248, pfaults=59768, pageins=1158)
