@@ -1,4 +1,56 @@
 These results were generated with the following data:n_atoms: 19, elements: [1, 6, 7]
 
- The time taken for the descriptor with map is: 79.64761090278625 (using 10000 data points) 
-The shape of the descriptor is (10000, 19, 18). 
+ The time taken for the descriptor with map is: 3.2193658351898193 (using 400 data points) 
+
+ The time taken for the descriptor with map is: 3.5133421421051025 (using 400 data points) 
+
+ The time taken for the descriptor with map is: 3.194772958755493 (using 400 data points) 
+
+ The time taken for the descriptor with map is: 2.907676935195923 (using 400 data points) 
+
+ The time taken for the descriptor with map is: 2.917370080947876 (using 400 data points) 
+The shape of the descriptor is (400, 19, 18). 
+
+ The time taken for the descriptor with map is: 5.485249996185303 (using 800 data points) 
+
+ The time taken for the descriptor with map is: 5.381117820739746 (using 800 data points) 
+
+ The time taken for the descriptor with map is: 5.840131044387817 (using 800 data points) 
+
+ The time taken for the descriptor with map is: 5.433306694030762 (using 800 data points) 
+
+ The time taken for the descriptor with map is: 5.8853559494018555 (using 800 data points) 
+The shape of the descriptor is (800, 19, 18). 
+
+ The time taken for the descriptor with map is: 10.52313494682312 (using 1500 data points) 
+
+ The time taken for the descriptor with map is: 10.203460693359375 (using 1500 data points) 
+
+ The time taken for the descriptor with map is: 11.497416973114014 (using 1500 data points) 
+
+ The time taken for the descriptor with map is: 10.64120888710022 (using 1500 data points) 
+
+ The time taken for the descriptor with map is: 10.170205116271973 (using 1500 data points) 
+The shape of the descriptor is (1500, 19, 18). 
+
+ The time taken for the descriptor with map is: 15.976195096969604 (using 2500 data points) 
+
+ The time taken for the descriptor with map is: 16.06378698348999 (using 2500 data points) 
+
+ The time taken for the descriptor with map is: 15.819783926010132 (using 2500 data points) 
+
+ The time taken for the descriptor with map is: 19.425408840179443 (using 2500 data points) 
+
+ The time taken for the descriptor with map is: 16.954004049301147 (using 2500 data points) 
+The shape of the descriptor is (2500, 19, 18). 
+
+ The time taken for the descriptor with map is: 22.5588858127594 (using 3000 data points) 
+
+ The time taken for the descriptor with map is: 24.502902030944824 (using 3000 data points) 
+
+ The time taken for the descriptor with map is: 20.158351182937622 (using 3000 data points) 
+
+ The time taken for the descriptor with map is: 23.55739402770996 (using 3000 data points) 
+
+ The time taken for the descriptor with map is: 21.528085947036743 (using 3000 data points) 
+The shape of the descriptor is (3000, 19, 18). 

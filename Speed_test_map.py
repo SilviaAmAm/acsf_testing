@@ -34,9 +34,6 @@ output.write("These results were generated with the following data:")
 output.write("n_atoms: %s, elements: %s" % (str(max_n_atoms), str(elements)))
 output.write("\n")
 
-mem_output = open("map_memory.txt", 'a')
-p = psutil.Process()
-mem_output.write("The current process is: %s. \n" % (str(p.name)))
 
 
 ## ------------- ** Parameters for acsf ** -------------------------
@@ -51,10 +48,8 @@ angular_cutoff = 10.0
 
 ## ------------- ** Making the descriptor  ** ------------
 
-# run_metadata = tf.RunMetadata()
-# options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
-# samples = [100, 200, 400, 800, 3000]
-samples = [10000]
+
+samples = [400, 800, 1500, 2500, 3000]
 
 full_batch_sizes = []
 times = []
@@ -73,7 +68,7 @@ def generate_descriptor(batch_xyz, batch_zs):
 
 for n_points in samples:
 
-    for i in range(1):
+    for i in range(5):
         map_start_time = time.time()
 
         tf.reset_default_graph()
@@ -90,23 +85,14 @@ for n_points in samples:
 
         sess_map = tf.Session()
         sess_map.run(tf.global_variables_initializer())
-        # sess_map.run(iterator.make_initializer(dataset), feed_dict={xyz_tf: xyz[:n_points], zs_tf: zs[:n_points]}, options=options, run_metadata=run_metadata)
         sess_map.run(iterator.make_initializer(dataset), feed_dict={xyz_tf: xyz[:n_points], zs_tf: zs[:n_points]})
 
         descriptor_map_slices=[]
-
-        # path = "tensorboard/map/n_samples_" + str(n_points) + "_iter_" + str(i)
-        #
-        # if not os.path.exists(path):
-        #     os.makedirs(path)
-        #
-        # summary_writer = tf.summary.FileWriter(logdir=path, graph=sess_map.graph)
 
         batch_counter = 0
         while True:
             try:
                 descriptor_np = sess_map.run(batch_descriptor)
-                # summary_writer.add_run_metadata(run_metadata=run_metadata, tag="batch %s" % batch_counter, global_step=None)
                 descriptor_map_slices.append(descriptor_np)
                 batch_counter += 1
             except tf.errors.OutOfRangeError:
@@ -127,9 +113,6 @@ for n_points in samples:
         sess_map.close()
 
     output.write("The shape of the descriptor is %s. \n" % (str(descriptor_map_conc.shape)))
-
-mem_output.write(str(p.memory_info()))
-mem_output.write("\n")
 
 times = np.asarray(times)
 full_n_samples = np.asarray(full_n_samples)

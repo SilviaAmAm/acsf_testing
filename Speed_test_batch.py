@@ -35,10 +35,6 @@ output.write("\n These results were generated with the following data: ")
 output.write("n_atoms: %s, elements: %s" % (str(max_n_atoms), str(elements)))
 output.write("\n")
 
-mem_output = open("batches_memory.txt", 'a')
-p = psutil.Process()
-mem_output.write("The current process is: %s. \n" % (str(p.name)))
-
 ## ------------- ** Parameters for acsf ** -------------------------
 
 rad_rs = np.arange(0, 10, 5)
@@ -51,12 +47,8 @@ angular_cutoff = 10.0
 
 ## ------------- ** Making the descriptor ** ------------
 
-# run_metadata = tf.RunMetadata()
-# options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
-# batch_sizes = [1, 5, 50, 200, 400]
-# samples = [100, 200, 400, 800, 3000]
-batch_sizes = [100]
-samples = [10000]
+batch_sizes = [1, 5, 50, 200, 400]
+samples = [400, 800, 1500, 2500, 3000]
 
 
 full_batch_sizes = []
@@ -67,7 +59,7 @@ for n_points in samples:
 
     for batch_size in batch_sizes:
 
-        for i in range(1):
+        for i in range(5):
 
             batch_start_time = time.time()
 
@@ -93,18 +85,9 @@ for n_points in samples:
 
             descriptor_slices=[]
 
-            # path = "tensorboard/batches/n_samples_" + str(n_points) + "_batch_" + str(batch_size) + "_iter_" + str(i)
-            #
-            # if not os.path.exists(path):
-            #     os.makedirs(path)
-
-            # summary_writer = tf.summary.FileWriter(logdir=path, graph=sess_batches.graph)
-
             batch_counter = 0
             while True:
                 try:
-                    # descriptor_np = sess_batches.run(descriptor, options=options, run_metadata=run_metadata)
-                    # summary_writer.add_run_metadata(run_metadata=run_metadata, tag="batch %s" % batch_counter, global_step=None)
                     descriptor_np = sess_batches.run(descriptor)
                     descriptor_slices.append(descriptor_np)
                     batch_counter += 1
@@ -126,9 +109,6 @@ for n_points in samples:
             sess_batches.close()
 
     output.write("The shape of the descriptor is %s" % (str(descriptor_conc.shape)))
-
-mem_output.write(str(p.memory_info()))
-mem_output.write("\n")
 
 times = np.asarray(times)
 full_batch_sizes = np.asarray(full_batch_sizes)
